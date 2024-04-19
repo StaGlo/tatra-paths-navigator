@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TouristPath</string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="title_activity_path_detail">PathDetail</string>
+</resources>
