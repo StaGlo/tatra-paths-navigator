@@ -10,7 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,7 +29,7 @@ fun Stopper(modifier: Modifier = Modifier) {
 
     // State to track the elapsed time
 
-    val elapsedTime = remember { mutableLongStateOf(0L) }
+    val elapsedTime = remember { mutableDoubleStateOf(0.0) }
 
     // Coroutine scope for timer
     val scope = rememberCoroutineScope()
@@ -42,11 +42,12 @@ fun Stopper(modifier: Modifier = Modifier) {
 
     // Function to reset the timer
     fun resetTimer() {
-        stopTimer()
-        elapsedTime.longValue = 0
+        if (isRunning.value)
+            return
+        elapsedTime.doubleValue = 0.0
         scope.launch {
             delay(1000)
-            elapsedTime.longValue = 0
+            elapsedTime.doubleValue = 0.0
         }
     }
 
@@ -55,8 +56,8 @@ fun Stopper(modifier: Modifier = Modifier) {
         Log.d("Stopper", "startTimer: isRunning: ${isRunning.value}")
         scope.launch {
             while (isRunning.value) {
-                delay(1000)
-                elapsedTime.longValue += 1
+                delay(10)
+                elapsedTime.doubleValue += 0.01
             }
         }
     }
@@ -74,7 +75,7 @@ fun Stopper(modifier: Modifier = Modifier) {
         )
         Text(
             style = MaterialTheme.typography.bodyMedium,
-            text = "Elapsed Time: ${elapsedTime.longValue} seconds"
+            text = "Elapsed Time: ${formatTime(elapsedTime.doubleValue)} seconds"
         )
 
         Row(
@@ -96,6 +97,12 @@ fun Stopper(modifier: Modifier = Modifier) {
     }
 }
 
+fun formatTime(time: Double): String {
+    val minutes = (time / 60).toInt()
+    val seconds = (time % 60).toInt()
+    val hours = (time / 3600).toInt()
+    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+}
 
 @Preview(showBackground = true)
 @Composable
