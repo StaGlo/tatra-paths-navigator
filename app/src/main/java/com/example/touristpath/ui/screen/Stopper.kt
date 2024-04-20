@@ -10,6 +10,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,19 +20,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.touristpath.data.PathObject
+import com.example.touristpath.tools.DataStoreManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun Stopper(modifier: Modifier = Modifier) {
+fun Stopper(modifier: Modifier = Modifier, dataStoreManager: DataStoreManager, path: PathObject) {
 
+    val stopperValue = dataStoreManager.getStopperValue(path.title).collectAsState(initial = 0)
     val isRunning = remember { mutableStateOf(false) }
     val elapsedTime = remember { mutableDoubleStateOf(0.0) }
     val scope = rememberCoroutineScope()
 
+    LaunchedEffect(stopperValue) {
+        elapsedTime.doubleValue = stopperValue.value.toDouble()
+    }
+
     // Function to stop the timer
     fun stopTimer() {
         isRunning.value = false
+        scope.launch {
+            dataStoreManager.setStopperValue(path.title, elapsedTime.doubleValue)
+        }
     }
 
     // Function to reset the timer
@@ -81,7 +93,7 @@ fun Stopper(modifier: Modifier = Modifier) {
                 Text("Start")
             }
             Button(onClick = { stopTimer() }) {
-                Text("Stop")
+                Text("Stop & Save")
             }
             Button(onClick = { resetTimer() }) {
                 Text("Reset")
@@ -100,5 +112,6 @@ fun formatTime(time: Double): String {
 @Preview(showBackground = true)
 @Composable
 fun StopperPreview() {
-    Stopper()
+    val context = androidx.compose.ui.platform.LocalContext.current
+    Stopper(path = PathObject("title", "description"), dataStoreManager = DataStoreManager(context))
 }

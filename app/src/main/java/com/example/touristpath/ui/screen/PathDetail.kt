@@ -1,3 +1,5 @@
+package com.example.touristpath.ui.screen
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,7 +27,6 @@ import androidx.navigation.NavHostController
 import com.example.touristpath.data.PathObject
 import com.example.touristpath.data.pathList
 import com.example.touristpath.tools.DataStoreManager
-import com.example.touristpath.ui.screen.Stopper
 
 @Composable
 fun PathDetail(
@@ -35,12 +36,13 @@ fun PathDetail(
     isLargeScreen: Boolean = false,
     dataStoreManager: DataStoreManager
 ) {
-    val showStopper by dataStoreManager.getStopperState(path.title).collectAsState(initial = false)
+    val showStopper by dataStoreManager.getStopperVisibility(path.title)
+        .collectAsState(initial = false)
     var toggleStopper by remember { mutableStateOf(false) }
 
     if (toggleStopper) {
         LaunchedEffect(true) {
-            dataStoreManager.setStopperState(path.title, !showStopper)
+            dataStoreManager.setStopperVisibility(path.title, !showStopper)
         }
         toggleStopper = false
     }
@@ -66,7 +68,7 @@ fun PathDetail(
                 .padding(bottom = 24.dp)
         )
         if (showStopper) {
-            Stopper()
+            Stopper(dataStoreManager = dataStoreManager, path = path)
         }
         Spacer(modifier = Modifier.weight(1f))
         Row(
