@@ -11,14 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.touristpath.data.PathObject
 import com.example.touristpath.data.pathList
-import com.example.touristpath.ui.screen.HomePage
-import com.example.touristpath.ui.screen.PathDetail
+import com.example.touristpath.tools.DataStoreManager
 import com.example.touristpath.ui.screen.ResponsiveLayout
 import com.example.touristpath.ui.theme.TouristPathTheme
 
@@ -35,7 +33,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // val navController = rememberNavController()
-                    AppNavigation(/*navController*/)
+
+                    val dataStoreManager = DataStoreManager(this)
+                    AppNavigation(dataStoreManager)
                 }
             }
         }
@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
 
     @Composable
-    fun AppNavigation() {
+    fun AppNavigation(dataStoreManager: DataStoreManager) {
         val navController = rememberNavController()
         // State for managing selected path in split view
         val (selectedPath, setSelectedPath) = remember { mutableStateOf<PathObject?>(null) }
@@ -59,7 +59,8 @@ class MainActivity : ComponentActivity() {
                     //onPathSelected = setSelectedPath, // Update selectedPath based on user interaction
                     navController = navController,
 //                    selectedPathObject = selectedPath
-                    selectedPathObject = null
+                    selectedPathObject = null,
+                    dataStoreManager = dataStoreManager
                 )
             }
 
@@ -78,7 +79,8 @@ class MainActivity : ComponentActivity() {
                 ResponsiveLayout(
                     paths = pathList,
                     navController = navController,
-                    selectedPathObject = path
+                    selectedPathObject = path,
+                    dataStoreManager = dataStoreManager
                 )
 
             }

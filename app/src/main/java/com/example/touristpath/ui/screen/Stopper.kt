@@ -15,25 +15,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun Stopper(modifier: Modifier = Modifier) {
 
-    // State to track whether the timer is running
     val isRunning = remember { mutableStateOf(false) }
-
-    // State to track the elapsed time
-
     val elapsedTime = remember { mutableDoubleStateOf(0.0) }
-
-    // Coroutine scope for timer
     val scope = rememberCoroutineScope()
-
 
     // Function to stop the timer
     fun stopTimer() {

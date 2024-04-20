@@ -5,9 +5,6 @@
       <entry key="DefaultPreview">
         <State />
       </entry>
-      <entry key="GreetingPreview">
-        <State />
-      </entry>
       <entry key="HomeScreenPreview">
         <State />
       </entry>
@@ -19,13 +16,16 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\stanl\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
+                  <value value="C:\Users\stanl\.android\avd\Medium_Tablet_API_30.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-19T16:27:08.083995700Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-20T14:10:46.398135300Z" />
         </State>
+      </entry>
+      <entry key="PathDetailPreview">
+        <State />
       </entry>
       <entry key="StopperPreview">
         <State />

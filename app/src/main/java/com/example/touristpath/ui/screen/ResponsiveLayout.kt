@@ -1,5 +1,6 @@
 package com.example.touristpath.ui.screen
 
+import PathDetail
 import android.util.Log
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
@@ -9,10 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.touristpath.data.PathObject
+import com.example.touristpath.tools.DataStoreManager
 
 @Composable
 fun ResponsiveLayout(
-    paths: List<PathObject>, navController: NavHostController?, selectedPathObject: PathObject?
+    paths: List<PathObject>,
+    navController: NavHostController?,
+    selectedPathObject: PathObject?,
+    dataStoreManager: DataStoreManager
 ) {
 
     BoxWithConstraints {
@@ -34,7 +39,9 @@ fun ResponsiveLayout(
                 PathDetail(
                     path = selectedPathObject
                         ?: paths.first(),  // Show first or selected path's details
-                    modifier = Modifier.weight(1f), isLargeScreen = true
+                    modifier = Modifier.weight(1f),
+                    isLargeScreen = true,
+                    dataStoreManager = dataStoreManager
                 )
             }
         } else {
@@ -47,6 +54,7 @@ fun ResponsiveLayout(
                     path = selectedPathObject,
                     modifier = Modifier.fillMaxSize(),
                     navController = navController,
+                    dataStoreManager = dataStoreManager
                 )
             } else {
                 HomePage(
