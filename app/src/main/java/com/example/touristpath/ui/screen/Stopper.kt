@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.touristpath.R
 import com.example.touristpath.data.PathObject
 import com.example.touristpath.tools.DataStoreManager
 
@@ -74,5 +75,8 @@ fun formatTime(time: Double): String {
 @Composable
 fun StopperPreview() {
     val context = androidx.compose.ui.platform.LocalContext.current
-    Stopper(path = PathObject("title", "description"), dataStoreManager = DataStoreManager(context))
+    Stopper(
+        path = PathObject("title", "description", R.drawable.giewont),
+        dataStoreManager = DataStoreManager(context)
+    )
 }

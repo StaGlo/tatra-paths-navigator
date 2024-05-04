@@ -70,7 +70,11 @@ class MainActivity : ComponentActivity() {
 
                 val pathIndex = backStackEntry.arguments?.getString("pathIndex")?.toIntOrNull() ?: 0
                 val path =
-                    pathList.getOrNull(pathIndex) ?: PathObject("Not Found", "Path does not exist.")
+                    pathList.getOrNull(pathIndex) ?: PathObject(
+                        "Not Found",
+                        "Path does not exist.",
+                        0
+                    )
                 // Update the selected path for the split view
                 setSelectedPath(path)
 

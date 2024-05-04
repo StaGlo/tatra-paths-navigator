@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -115,6 +116,9 @@ fun GridItem(path: PathObject, onClick: () -> Unit) {
                     .padding(4.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .align(Alignment.CenterHorizontally)
+                    .fillMaxSize()
+                    .size(128.dp),
+
             )
             Text(
                 text = path.title,
