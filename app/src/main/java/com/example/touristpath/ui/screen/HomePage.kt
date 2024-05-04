@@ -1,18 +1,29 @@
 package com.example.touristpath.ui.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -67,6 +78,51 @@ fun ListItemView(listItem: PathObject, onClick: () -> Unit) {
     }
 }
 
+@Composable
+fun HomePageGrid(
+    listItems: List<PathObject>,
+    isLargeScreen: Boolean = false,
+    navController: NavHostController?
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 128.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp)
+    ) {
+        itemsIndexed(listItems) { index, listItem ->
+            GridItem(listItem) {
+                if (!isLargeScreen) navController?.navigate("detail/$index")
+            }
+        }
+    }
+}
+
+@Composable
+fun GridItem(path: PathObject, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier.padding(8.dp).clickable { onClick() },
+//       /**/ backgroundColor = MaterialTheme.colorScheme.primary
+    ) {
+        Column(modifier = Modifier.padding(8.dp)) {
+
+
+            Image(
+                painter = painterResource(id = path.imageResId),
+                contentDescription = path.title,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .align(Alignment.CenterHorizontally)
+            )
+            Text(
+                text = path.title,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -77,6 +133,14 @@ fun HomeScreenPreview() {
 
             navController = null
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomePageGridPreview() {
+    TouristPathTheme {
+        HomePageGrid(pathList, isLargeScreen = false, navController = null)
     }
 }
 

@@ -1,6 +1,12 @@
 package com.example.touristpath.data
 
-data class PathObject(val title: String, val description: String)
+import com.example.touristpath.R
+
+data class PathObject(
+    val title: String,
+    val description: String,
+    val imageResId: Int = R.drawable.giewont
+)
 
 val pathList = listOf(
     PathObject(

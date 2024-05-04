@@ -56,7 +56,7 @@ fun ResponsiveLayout(
                     dataStoreManager = dataStoreManager
                 )
             } else {
-                HomePage(
+                HomePageGrid(
                     listItems = paths, navController = navController
                 )
             }
