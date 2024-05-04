@@ -28,7 +28,7 @@ fun ResponsiveLayout(
             Log.d("ResponsiveLayout", "Large screen detected")
 
             Row(modifier = Modifier.fillMaxSize()) {
-                HomePage(
+                HomePageGrid(
                     listItems = paths, modifier = Modifier.weight(1f), navController = navController
                 )
 

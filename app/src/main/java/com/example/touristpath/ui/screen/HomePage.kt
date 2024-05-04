@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -82,12 +81,13 @@ fun ListItemView(listItem: PathObject, onClick: () -> Unit) {
 @Composable
 fun HomePageGrid(
     listItems: List<PathObject>,
+    modifier: Modifier = Modifier,
     isLargeScreen: Boolean = false,
     navController: NavHostController?
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(8.dp)
     ) {
@@ -102,7 +102,9 @@ fun HomePageGrid(
 @Composable
 fun GridItem(path: PathObject, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.padding(8.dp).clickable { onClick() },
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable { onClick() },
 //       /**/ backgroundColor = MaterialTheme.colorScheme.primary
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
@@ -119,7 +121,7 @@ fun GridItem(path: PathObject, onClick: () -> Unit) {
                     .fillMaxSize()
                     .size(128.dp),
 
-            )
+                )
             Text(
                 text = path.title,
                 modifier = Modifier.padding(8.dp)
@@ -134,7 +136,6 @@ fun HomeScreenPreview() {
     TouristPathTheme {
         HomePage(
             pathList,
-
             navController = null
         )
     }
@@ -144,7 +145,10 @@ fun HomeScreenPreview() {
 @Composable
 fun HomePageGridPreview() {
     TouristPathTheme {
-        HomePageGrid(pathList, isLargeScreen = false, navController = null)
+        HomePageGrid(
+            pathList,
+            navController = null
+        )
     }
 }
 
