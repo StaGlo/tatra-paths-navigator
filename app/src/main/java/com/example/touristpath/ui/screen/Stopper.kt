@@ -1,6 +1,6 @@
 package com.example.touristpath.ui.screen
 
-import android.util.Log
+import TimerViewModelManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,62 +10,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.touristpath.data.PathObject
 import com.example.touristpath.tools.DataStoreManager
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun Stopper(modifier: Modifier = Modifier, dataStoreManager: DataStoreManager, path: PathObject) {
-
-    val stopperValue = dataStoreManager.getStopperValue(path.title).collectAsState(initial = 0)
-    val isRunning = remember { mutableStateOf(false) }
-    val elapsedTime = remember { mutableDoubleStateOf(0.0) }
-    val scope = rememberCoroutineScope()
-
-    LaunchedEffect(stopperValue) {
-        elapsedTime.doubleValue = stopperValue.value.toDouble()
+    val timerViewModel = remember {
+        TimerViewModelManager.getOrCreate(dataStoreManager, path.title)
     }
 
-    // Function to stop the timer
-    fun stopTimer() {
-        isRunning.value = false
-        scope.launch {
-            dataStoreManager.setStopperValue(path.title, elapsedTime.doubleValue)
-        }
-    }
-
-    // Function to reset the timer
-    fun resetTimer() {
-        if (isRunning.value)
-            return
-        elapsedTime.doubleValue = 0.0
-        scope.launch {
-            delay(1000)
-            elapsedTime.doubleValue = 0.0
-        }
-    }
-
-    fun startTimer() {
-        isRunning.value = true
-        Log.d("Stopper", "startTimer: isRunning: ${isRunning.value}")
-        scope.launch {
-            while (isRunning.value) {
-                delay(10)
-                elapsedTime.doubleValue += 0.01
-            }
-        }
-    }
+    val time by timerViewModel.elapsedTime.collectAsState()
 
     Column(
         modifier = modifier
@@ -80,7 +41,7 @@ fun Stopper(modifier: Modifier = Modifier, dataStoreManager: DataStoreManager, p
         )
         Text(
             style = MaterialTheme.typography.bodyMedium,
-            text = "Elapsed Time: ${formatTime(elapsedTime.doubleValue)} seconds"
+            text = "Elapsed Time: ${formatTime(time)} seconds"
         )
 
         Row(
@@ -89,13 +50,13 @@ fun Stopper(modifier: Modifier = Modifier, dataStoreManager: DataStoreManager, p
                 .fillMaxWidth()
                 .padding(top = 16.dp)
         ) {
-            Button(onClick = { if (!isRunning.value) startTimer() }) {
+            Button(onClick = { timerViewModel.startTimer() }) {
                 Text("Start")
             }
-            Button(onClick = { stopTimer() }) {
+            Button(onClick = { timerViewModel.stopTimer() }) {
                 Text("Stop & Save")
             }
-            Button(onClick = { resetTimer() }) {
+            Button(onClick = { timerViewModel.setElapsedTime(0.0) }) {
                 Text("Reset")
             }
         }

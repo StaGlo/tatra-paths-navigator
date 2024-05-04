@@ -1,6 +1,5 @@
 package com.example.touristpath.ui.screen
 
-import PathDetail
 import android.util.Log
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
