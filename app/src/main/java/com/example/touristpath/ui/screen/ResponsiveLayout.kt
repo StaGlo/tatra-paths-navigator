@@ -35,7 +35,7 @@ fun ResponsiveLayout(
                 // For large screens, show the detail view side by side
                 Log.d("ResponsiveLayout!!", "Selected path: ${selectedPathObject?.title}")
 
-                PathDetail(
+                PathDetailFAB(
                     path = selectedPathObject
                         ?: paths.first(),  // Show first or selected path's details
                     modifier = Modifier.weight(1f),
@@ -49,7 +49,7 @@ fun ResponsiveLayout(
             if (selectedPathObject != null) {
 
                 Log.d("ResponsiveLayout", "Selected path: ${selectedPathObject.title}")
-                PathDetail(
+                PathDetailFAB(
                     path = selectedPathObject,
                     modifier = Modifier.fillMaxSize(),
                     navController = navController,

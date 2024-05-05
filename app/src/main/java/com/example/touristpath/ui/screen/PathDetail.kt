@@ -1,5 +1,6 @@
 package com.example.touristpath.ui.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,8 +10,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material3.Button
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -82,12 +91,45 @@ fun PathDetail(
             }
             if (!isLargeScreen) {
                 Button(onClick = { navController?.navigate("home") }) {
-                    Text("Return to Main Page")
+                    Text("Main Page")
                 }
             }
         }
     }
 }
+
+@Composable
+fun PathDetailFAB(
+    path: PathObject,
+    modifier: Modifier = Modifier,
+    navController: NavHostController? = null,
+    isLargeScreen: Boolean = false,
+    dataStoreManager: DataStoreManager
+) {
+    val context = LocalContext.current
+
+    Scaffold(
+        modifier = modifier,
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                Toast.makeText(context, "FAB Clicked", Toast.LENGTH_SHORT).show()
+            }) {
+                Icon(Icons.Filled.Add, contentDescription = "add")
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End
+    ) { paddingValues ->
+        // Apply the padding provided by Scaffold to PathDetail
+        PathDetail(
+            path = path,
+            modifier = modifier.padding(paddingValues),
+            navController = navController,
+            isLargeScreen = isLargeScreen,
+            dataStoreManager = dataStoreManager
+        )
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
