@@ -1,6 +1,8 @@
 package com.example.touristpath.ui.screen
 
-import android.widget.Toast
+import android.content.ContentValues
+import android.content.Intent
+import android.provider.MediaStore
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,11 +10,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Call
 import androidx.compose.material3.Button
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -26,16 +26,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.touristpath.R
 import com.example.touristpath.data.PathObject
 import com.example.touristpath.data.pathList
 import com.example.touristpath.tools.DataStoreManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun PathDetail(
@@ -107,19 +113,45 @@ fun PathDetailFAB(
     dataStoreManager: DataStoreManager
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         modifier = modifier,
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                Toast.makeText(context, "FAB Clicked", Toast.LENGTH_SHORT).show()
+
+                // Define image metadata
+                val values = ContentValues()
+                values.put(
+                    MediaStore.Images.Media.DISPLAY_NAME,
+                    "MyImage_" + path.title + "_" + System.currentTimeMillis()
+                )
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Paths' photos")
+
+                // Insert the image into the MediaStore
+                val resolver = context.contentResolver
+                val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+                // Start the camera
+                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+
+                coroutineScope.launch(Dispatchers.Main) {
+                    context.startActivity(takePictureIntent)
+                }
+
             }) {
-                Icon(Icons.Filled.Add, contentDescription = "add")
+                Icon(
+                    painter = painterResource(id = R.drawable.camera),
+                    contentDescription = "Take Photo",
+                    modifier = Modifier.size(32.dp)
+                )
+
             }
         },
         floatingActionButtonPosition = FabPosition.End
     ) { paddingValues ->
-        // Apply the padding provided by Scaffold to PathDetail
         PathDetail(
             path = path,
             modifier = modifier.padding(paddingValues),
@@ -130,12 +162,11 @@ fun PathDetailFAB(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun PathDetailPreview() {
     // Assuming there's a mock DataStoreManager instance and NavHostController
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     PathDetail(
         path = pathList.first(),
         isLargeScreen = false,

@@ -56,6 +56,13 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("com.google.accompanist:accompanist-flowlayout:0.20.0")
 
+    implementation("androidx.camera:camera-core:1.2.1")
+    implementation("androidx.camera:camera-camera2:1.2.1")
+    implementation("androidx.camera:camera-lifecycle:1.2.1")
+    implementation("androidx.camera:camera-view:1.2.1")
+    implementation("androidx.camera:camera-extensions:1.2.1")
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -64,6 +71,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.camera.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
