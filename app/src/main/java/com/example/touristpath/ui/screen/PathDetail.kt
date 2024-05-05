@@ -3,6 +3,10 @@ package com.example.touristpath.ui.screen
 import android.content.ContentValues
 import android.content.Intent
 import android.provider.MediaStore
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +34,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,6 +75,15 @@ fun PathDetail(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Image(
+            painter = painterResource(id = path.imageResId),
+            contentDescription = path.title,
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 24.dp)
+                .border(BorderStroke(3.dp, MaterialTheme.colorScheme.primary))
+        )
         Text(
             style = MaterialTheme.typography.headlineMedium,
             text = path.title,
@@ -116,7 +130,8 @@ fun PathDetailFAB(
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background),
         floatingActionButton = {
             FloatingActionButton(onClick = {
 
@@ -167,7 +182,7 @@ fun PathDetailFAB(
 fun PathDetailPreview() {
     // Assuming there's a mock DataStoreManager instance and NavHostController
     val context = LocalContext.current
-    PathDetail(
+    PathDetailFAB(
         path = pathList.first(),
         isLargeScreen = false,
         dataStoreManager = DataStoreManager(context) // Correctly initialize
