@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.touristpath.data.PathObject
 import com.example.touristpath.data.pathList
 import com.example.touristpath.tools.DataStoreManager
+import com.example.touristpath.ui.screen.NavigationDrawer
 import com.example.touristpath.ui.screen.ResponsiveLayout
 import com.example.touristpath.ui.theme.TouristPathTheme
 
@@ -35,7 +36,8 @@ class MainActivity : ComponentActivity() {
                     // val navController = rememberNavController()
 
                     val dataStoreManager = DataStoreManager(this)
-                    AppNavigation(dataStoreManager)
+//                    AppNavigation(dataStoreManager)
+                    NavigationDrawer(dataStoreManager = dataStoreManager)
                 }
             }
         }

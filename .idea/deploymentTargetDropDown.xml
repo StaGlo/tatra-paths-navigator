@@ -5,14 +5,11 @@
       <entry key="HomePageGridPreview">
         <State />
       </entry>
-      <entry key="HomeScreenPreview">
-        <State />
-      </entry>
       <entry key="MainActivity">
         <State>
-          <runningDeviceTargetSelectedWithDropDown>
+          <targetSelectedWithDropDown>
             <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
+              <type value="QUICK_BOOT_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
@@ -20,14 +17,17 @@
                 </Key>
               </deviceKey>
             </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-05-05T12:20:54.835067700Z" />
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-05-07T16:08:11.113147900Z" />
         </State>
       </entry>
       <entry key="PathDetailPreview">
         <State />
       </entry>
       <entry key="StopperPreview">
+        <State />
+      </entry>
+      <entry key="WelcomePagePreview">
         <State />
       </entry>
       <entry key="app">
