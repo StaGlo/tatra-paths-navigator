@@ -95,7 +95,10 @@ fun NavigationDrawer(dataStoreManager: DataStoreManager) {
             }
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues)) {
-                NavHost(navController = navController, startDestination = "welcomePage") {
+                NavHost(navController = navController, startDestination = "splash") {
+                    composable("splash") {
+                        SplashScreen(navController)
+                    }
                     composable("welcomePage") { WelcomePage() }
                     composable("allPaths") {
                         ResponsiveLayout(
