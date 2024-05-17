@@ -86,7 +86,7 @@ fun HomePageGrid(
     navController: NavHostController?
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 128.dp),
+        columns = GridCells.Adaptive(minSize = 180.dp),
         modifier = modifier
             .fillMaxSize()
             .padding(8.dp)
@@ -123,7 +123,7 @@ fun GridItem(path: PathObject, onClick: () -> Unit) {
 
                 )
             Text(
-                text = path.title,
+                text = if (path.title.length > 30) "${path.title.take(30)}..." else path.title,
                 modifier = Modifier.padding(8.dp)
             )
         }
