@@ -110,7 +110,7 @@ fun PathDetail(
                 Text(if (showStopper) "Stop trip!" else "Start trip!")
             }
             if (!isLargeScreen) {
-                Button(onClick = { navController?.navigate("home") }) {
+                Button(onClick = { navController?.navigateUp() }) {
                     Text("Main Page")
                 }
             }
