@@ -93,7 +93,8 @@ fun HomePageGrid(
     ) {
         itemsIndexed(listItems) { index, listItem ->
             GridItem(listItem) {
-                if (!isLargeScreen) navController?.navigate("detail/$index")
+                if (!isLargeScreen)
+                    navController?.navigate("detail/${listItem.title}")
             }
         }
     }

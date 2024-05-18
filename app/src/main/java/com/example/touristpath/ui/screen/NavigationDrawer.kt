@@ -125,18 +125,14 @@ fun NavigationDrawer(dataStoreManager: DataStoreManager) {
                         )
                     }
 
-                    composable("detail/{pathIndex}") { backStackEntry ->
-                        val pathIndex =
-                            backStackEntry.arguments?.getString("pathIndex")?.toIntOrNull() ?: 0
-                        val path =
-                            pathList.getOrNull(pathIndex) ?: PathObject(
-                                "Not Found",
-                                "Path does not exist.",
-                                0
-                            )
+                    composable("detail/{pathTitle}") { backStackEntry ->
+                        val pathTitle = backStackEntry.arguments?.getString("pathTitle") ?: ""
+                        val path = pathList.find { it.title == pathTitle }
+                            ?: PathObject("Not Found", "Path does not exist.", 0)
+
                         setSelectedPath(path)
 
-                        Log.d("MainActivity", "AppNavigation: pathIndex: $pathIndex")
+                        Log.d("MainActivity", "AppNavigation: pathTitle: $pathTitle")
 
                         ResponsiveLayout(
                             paths = pathList,
